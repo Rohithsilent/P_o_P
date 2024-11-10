@@ -8,11 +8,11 @@ from googleapiclient.errors import HttpError
 import warnings
 warnings.filterwarnings('ignore')
 
-print("Secrets:", st.secrets)  # This should display all keys from `secrets.toml`
+# print("Secrets:", st.secrets)  # This should display all keys from `secrets.toml`
 
 # Access the key
 DEVELOPER_KEY = st.secrets["default"]["DEVELOPER_KEY"]
-print("Developer Key:", DEVELOPER_KEY)
+# print("Developer Key:", DEVELOPER_KEY)
 
 YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
