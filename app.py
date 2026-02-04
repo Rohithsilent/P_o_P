@@ -15,7 +15,11 @@ logger = logging.getLogger()
 load_dotenv()
 
 # Set up Gemini API Key
-gemini_api_key = os.getenv("GEMINI_API_KEY")
+# Try to get from Streamlit secrets first (for cloud deployment), then fall back to .env (for local)
+try:
+    gemini_api_key = st.secrets["default"]["GEMINI_API_KEY"]
+except (KeyError, FileNotFoundError):
+    gemini_api_key = os.getenv("GEMINI_API_KEY")
 
 # Initialize client
 client = None
