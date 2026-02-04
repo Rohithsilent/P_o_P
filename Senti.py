@@ -62,15 +62,51 @@ def bar_chart(csv_file: str) -> None:
         'Number of Comments': [num_positive, num_negative, num_neutral]
     })
 
-    # Create the bar chart using Plotly Express
-    fig = px.bar(df, x='Sentiment', y='Number of Comments', color='Sentiment', 
-                 color_discrete_sequence=['#87CEFA', '#FFA07A', '#D3D3D3'],
-                 title='Sentiment Analysis Results')
-    fig.update_layout(title_font=dict(size=20))
+    # Create the horizontal bar chart using Plotly Express with modern dark theme
+    fig = px.bar(df, y='Sentiment', x='Number of Comments', 
+                 color='Sentiment', 
+                 color_discrete_map={
+                     'Positive': '#10b981',
+                     'Negative': '#ef4444',
+                     'Neutral': '#6b7280'
+                 },
+                 orientation='h')
+    
+    # Update layout for modern dark theme with responsive sizing
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family='Inter, sans-serif', color='#cbd5e1', size=13),
+        xaxis=dict(
+            gridcolor='rgba(148, 163, 184, 0.1)',
+            title='Number of Comments',
+            title_font=dict(color='#cbd5e1', size=14),
+            tickfont=dict(color='#cbd5e1')
+        ),
+        yaxis=dict(
+            gridcolor='rgba(148, 163, 184, 0.1)',
+            title='',
+            title_font=dict(color='#cbd5e1'),
+            tickfont=dict(color='#cbd5e1', size=14)
+        ),
+        showlegend=False,
+        margin=dict(l=10, r=10, t=10, b=10),
+        height=350,
+        hovermode='y unified'
+    )
+    
+    # Update traces for better appearance
+    fig.update_traces(
+        marker=dict(
+            line=dict(width=0)
+        ),
+        texttemplate='%{x}',
+        textposition='outside',
+        textfont=dict(size=14, color='#cbd5e1')
+    )
 
-
-    # Show the chart
-    st.plotly_chart(fig, use_container_width=True)    
+    # Show the chart with responsive container
+    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})    
     
 def plot_sentiment(csv_file: str) -> None:
     # Call analyze_sentiment function to get the results
@@ -81,16 +117,40 @@ def plot_sentiment(csv_file: str) -> None:
     num_positive = results['num_positive']
     num_negative = results['num_negative']
 
-    # Plot the pie chart
-    labels = ['Neutral', 'Positive', 'Negative']
-    values = [num_neutral, num_positive, num_negative]
-    colors = ['yellow', 'green', 'red']
-    fig = go.Figure(data=[go.Pie(labels=labels, values=values, textinfo='label+percent',
-                                 marker=dict(colors=colors))])
-    fig.update_layout(title={'text': 'Sentiment Analysis Results', 'font': {'size': 20, 'family': 'Arial', 'color': 'grey'},
-                              'x': 0.5, 'y': 0.9},
-                      font=dict(size=14))
-    st.plotly_chart(fig)
+    # Plot the pie chart with modern colors
+    labels = ['Positive', 'Negative', 'Neutral']
+    values = [num_positive, num_negative, num_neutral]
+    colors = ['#10b981', '#ef4444', '#6b7280']
+    
+    fig = go.Figure(data=[go.Pie(
+        labels=labels, 
+        values=values, 
+        textinfo='label+percent',
+        textfont=dict(size=14, color='#f8fafc'),
+        marker=dict(colors=colors, line=dict(color='#0a0e1a', width=2)),
+        hole=0.4  # Donut chart for modern look
+    )])
+    
+    fig.update_layout(
+        paper_bgcolor='rgba(0,0,0,0)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(size=14, family='Inter, sans-serif', color='#cbd5e1'),
+        showlegend=True,
+        legend=dict(
+            bgcolor='rgba(0,0,0,0)',
+            font=dict(color='#cbd5e1', size=13),
+            orientation='h',
+            yanchor='bottom',
+            y=-0.15,
+            xanchor='center',
+            x=0.5
+        ),
+        margin=dict(l=10, r=10, t=10, b=40),
+        height=400,
+        hovermode='closest'
+    )
+    
+    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
     
     
     

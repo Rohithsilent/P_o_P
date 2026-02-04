@@ -10,7 +10,7 @@ warnings.filterwarnings('ignore')
 
 # print("Secrets:", st.secrets)  # This should display all keys from `secrets.toml`
 
-# Access the key
+# Access the key for youtube data api
 DEVELOPER_KEY = st.secrets["default"]["DEVELOPER_KEY"]
 # print("Developer Key:", DEVELOPER_KEY)
 
@@ -35,22 +35,31 @@ def save_video_comments_to_csv(video_id):
     results = youtube.commentThreads().list(
         part='snippet',
         videoId=video_id,
-        textFormat='plainText'
+        textFormat='plainText',
+        maxResults=100  # Limit to prevent excessive API usage
     ).execute()
     
     # Extract the text content of each comment and add it to the comments list
     while results:
         for item in results['items']:
-            comment = item['snippet']['topLevelComment']['snippet']['textDisplay']
-            username = item['snippet']['topLevelComment']['snippet']['authorDisplayName']
-            comments.append([username,comment])
-        if 'nextPageToken' in results:
+            snippet = item['snippet']['topLevelComment']['snippet']
+            comment = snippet['textDisplay']
+            username = snippet['authorDisplayName']
+            likes = snippet.get('likeCount', 0)
+            published_at = snippet.get('publishedAt', '')
+            reply_count = item['snippet'].get('totalReplyCount', 0)
+            
+            comments.append([username, comment, likes, published_at, reply_count])
+        
+        # Handle pagination (limited to prevent excessive requests)
+        if 'nextPageToken' in results and len(comments) < 500:
             nextPage = results['nextPageToken']
             results = youtube.commentThreads().list(
                 part='snippet',
                 videoId=video_id,
                 textFormat='plainText',
-                pageToken=nextPage
+                pageToken=nextPage,
+                maxResults=100
             ).execute()
         else:
             break
@@ -59,9 +68,9 @@ def save_video_comments_to_csv(video_id):
     filename = video_id + '.csv'
     with open(filename, 'w', newline='', encoding='utf-8') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerow(['Username','Comment'])
+        writer.writerow(['Username', 'Comment', 'Likes', 'Published At', 'Reply Count'])
         for comment in comments:
-            writer.writerow([comment[0],comment[1]])
+            writer.writerow(comment)
             
     return filename
             

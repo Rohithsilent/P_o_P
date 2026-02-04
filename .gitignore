@@ -1,7 +1,93 @@
-# Ignore the myenv directory
+# ============================================
+# Python Environment
+# ============================================
+# Virtual environment directories
 myenv/
+venv/
+env/
+ENV/
+.venv
 
-# Ignore Python cache files
+# Python cache files
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# ============================================
+# API Keys & Secrets (CRITICAL - DO NOT COMMIT)
+# ============================================
+# Environment variables with API keys
+.env
+.env.local
+.env.*.local
+*.env
+
+# Streamlit secrets (contains YouTube API key)
+.streamlit/secrets.toml
+.streamlit/credentials.toml
+
+# Any backup or temporary env files
+.env.backup
+.env.bak
+*.key
+secrets/
+
+# ============================================
+# Data Files (May contain sensitive info)
+# ============================================
+# CSV files with scraped comments
+*.csv
+data/
+*.json
+*.sqlite
+*.db
+
+# ============================================
+# IDE & Editor Files
+# ============================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# ============================================
+# OS Files
+# ============================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+
+# ============================================
+# Logs & Temporary Files
+# ============================================
+*.log
+logs/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
