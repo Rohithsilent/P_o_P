@@ -7,7 +7,7 @@
 ![AI Powered](https://img.shields.io/badge/AI-Gemini%201.5-purple.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-**Transform YouTube comments into actionable creator insights with AI**
+**Transform YouTube comments into actionable creator insights**
 
 A modern, AI-powered analytics platform that helps YouTube creators understand their audience sentiment, identify improvement opportunities, and make data-driven content decisions.
 
@@ -44,7 +44,7 @@ A modern, AI-powered analytics platform that helps YouTube creators understand t
 ---
 
 ## 🖼️ Demo
-
+l
 ### Landing Page
 Clean, modern interface with glassmorphism design and clear call-to-action.
 
